@@ -52,7 +52,7 @@
     }
     #dog.loaded { opacity: 1; }
 
-    /* Header / nav */
+    /* Header */
     #header {
       position: fixed;
       top: 14px;
@@ -74,6 +74,7 @@
 
       pointer-events: none;
       max-width: min(760px, calc(100vw - 24px));
+      box-sizing: border-box;
     }
 
     #header h1 {
@@ -93,30 +94,31 @@
 
     #header nav {
       display: inline-flex;
-      gap: 14px;
+      gap: 12px;
       justify-content: center;
       flex-wrap: wrap;
     }
 
     .navlink {
       pointer-events: auto;
-      cursor: default;
+      cursor: pointer;
       font-size: 13px;
-      color: rgba(255,255,255,0.80);
-      padding: 6px 10px;
+      color: rgba(255,255,255,0.85);
+      padding: 6px 12px;
       border-radius: 999px;
-      border: 1px solid rgba(255,255,255,0.16);
-      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.08);
+      text-decoration: none;
       user-select: none;
     }
 
     .navlink:hover {
       color: #fff;
-      background: rgba(255,255,255,0.12);
-      border-color: rgba(255,255,255,0.22);
+      background: rgba(255,255,255,0.16);
+      border-color: rgba(255,255,255,0.28);
     }
 
-    /* Mobile layout fix */
+    /* Mobile fixes */
     @media (max-width: 520px) {
       #header {
         top: 0;
@@ -126,9 +128,13 @@
         width: 100%;
         max-width: none;
 
-        padding: 10px 12px 12px;
-        border-radius: 0 0 16px 16px;
+        /* SAFE-AREA FIX — this is the centering correction */
+        padding-left: calc(12px + env(safe-area-inset-left));
+        padding-right: calc(12px + env(safe-area-inset-right));
+        padding-top: calc(10px + env(safe-area-inset-top));
+        padding-bottom: 12px;
 
+        border-radius: 0 0 16px 16px;
         background: rgba(0, 0, 0, 0.55);
         box-shadow: 0 8px 20px rgba(0,0,0,0.35);
       }
@@ -138,7 +144,6 @@
         line-height: 1.1;
       }
 
-      /* UPDATED: allow wrapping instead of truncation */
       #header p {
         margin: 6px 0 8px;
         font-size: 12.5px;
@@ -217,6 +222,14 @@
         <span class="navlink">About</span>
         <span class="navlink">Projects</span>
         <span class="navlink">Stuff</span>
+        <a
+          class="navlink"
+          href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+          target="_blank"
+          rel="noopener"
+        >
+          Don’t Push
+        </a>
       </nav>
     </header>
 
@@ -272,7 +285,7 @@
     document.addEventListener("pointerup", (e) => {
       if (e.pointerType === "mouse" && e.button !== 0) return;
       if (e.target === floater || floater.contains(e.target)) return;
-      if (e.target.classList?.contains("navlink")) return;
+      if (e.target.closest(".navlink")) return;
       pickRandomImage();
     }, { passive: true });
 
