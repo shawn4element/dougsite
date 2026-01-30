@@ -5,7 +5,10 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Shawn Sartor & Dougie</title>
 
-  <meta name="description" content="Website of Shawn Sartor. A simple photo page featuring Doug (Dougie Dougerton)." />
+  <meta
+    name="description"
+    content="Website of Shawn Sartor. A simple photo page featuring Doug (Dougie Dougerton)."
+  />
 
   <style>
     html, body {
@@ -33,7 +36,6 @@
       opacity: 0;
       transition: opacity 300ms ease;
     }
-
     #bg.loaded { opacity: 1; }
 
     /* Foreground image */
@@ -50,37 +52,44 @@
       -webkit-user-select: none;
       -webkit-touch-callout: none;
     }
-
     #dog.loaded { opacity: 1; }
 
-    /* Floating screensaver text */
+    /* Floating screensaver-style link */
     #floater {
-      position: absolute;
-      z-index: 2;
+      position: fixed;
+      left: 20px;
+      top: 20px;
+      z-index: 9999;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
       font-size: 22px;
-      font-weight: 600;
+      font-weight: 700;
       color: #fff;
       text-decoration: none;
-      padding: 6px 12px;
-      background: rgba(0, 0, 0, 0.35);
+      padding: 8px 14px;
       border-radius: 999px;
+      background: rgba(0, 0, 0, 0.45);
       backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.35);
       pointer-events: auto;
-      animation: floatAround 25s linear infinite;
     }
-
     #floater:hover {
-      background: rgba(255, 255, 255, 0.15);
+      background: rgba(255,255,255,0.14);
     }
 
-    @keyframes floatAround {
-      0%   { transform: translate(5vw, 10vh); }
-      20%  { transform: translate(70vw, 15vh); }
-      40%  { transform: translate(60vw, 70vh); }
-      60%  { transform: translate(10vw, 60vh); }
-      80%  { transform: translate(30vw, 25vh); }
-      100% { transform: translate(5vw, 10vh); }
+    /* Build stamp (subtle but visible) */
+    #build {
+      position: fixed;
+      bottom: 10px;
+      right: 12px;
+      z-index: 99999;
+      font: 11px system-ui, sans-serif;
+      color: rgba(255,255,255,0.6);
+      background: rgba(0,0,0,0.4);
+      padding: 4px 6px;
+      border-radius: 6px;
+      pointer-events: none;
     }
 
     /* Visually hidden SEO text */
@@ -96,23 +105,24 @@
     }
   </style>
 </head>
+
 <body>
   <div id="wrap">
     <div id="bg"></div>
-
     <img id="dog" alt="Doug (Dougie Dougerton)" draggable="false" />
-
-    <a
-      id="floater"
-      href="https://www.webhamster.com"
-      target="_blank"
-      rel="noopener"
-    >
-      Hello there!
-    </a>
-
     <p class="visually-hidden">Website of Shawn Sartor</p>
   </div>
+
+  <a
+    id="floater"
+    href="https://www.webhamster.com"
+    target="_blank"
+    rel="noopener"
+  >
+    Hello there!
+  </a>
+
+  <div id="build">build: 2026-01-30 · 3:00 PM</div>
 
   <script>
     const images = [
@@ -123,7 +133,7 @@
       "doug5.jpeg",
       "doug6.jpeg",
       "doug7.jpeg",
-      "doug8.jpeg",
+      "doug8.jpeg"
     ];
 
     const img = document.getElementById("dog");
@@ -153,19 +163,41 @@
       bg.classList.add("loaded");
     });
 
-    // Prevent floater clicks from changing the image
-    floater.addEventListener("pointerup", (e) => {
-      e.stopPropagation();
-    });
-
-    // Initial load
+    // Initial image
     pickRandomImage();
 
-    // Unified interaction (prevents iOS double-fire)
+    // Unified input handler (desktop + mobile, no double-fire)
     document.addEventListener("pointerup", (e) => {
       if (e.pointerType === "mouse" && e.button !== 0) return;
+      if (e.target === floater || floater.contains(e.target)) return;
       pickRandomImage();
     }, { passive: true });
+
+    // JS-driven screensaver-style motion
+    let x = 20, y = 20;
+    let vx = 1.1, vy = 0.9;
+
+    function animate() {
+      const rect = floater.getBoundingClientRect();
+      const maxX = window.innerWidth - rect.width;
+      const maxY = window.innerHeight - rect.height;
+
+      x += vx;
+      y += vy;
+
+      if (x <= 0 || x >= maxX) vx *= -1;
+      if (y <= 0 || y >= maxY) vy *= -1;
+
+      x = Math.max(0, Math.min(maxX, x));
+      y = Math.max(0, Math.min(maxY, y));
+
+      floater.style.left = x + "px";
+      floater.style.top  = y + "px";
+
+      requestAnimationFrame(animate);
+    }
+
+    requestAnimationFrame(animate);
   </script>
 </body>
 </html>
