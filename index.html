@@ -52,7 +52,7 @@
     }
     #dog.loaded { opacity: 1; }
 
-    /* NEW: top header / nav */
+    /* Header / nav */
     #header {
       position: fixed;
       top: 14px;
@@ -72,9 +72,7 @@
       border: 1px solid rgba(255, 255, 255, 0.14);
       box-shadow: 0 10px 28px rgba(0,0,0,0.40);
 
-      /* Important: don't break "click anywhere to change image" */
       pointer-events: none;
-
       max-width: min(760px, calc(100vw - 24px));
     }
 
@@ -82,7 +80,6 @@
       margin: 0;
       font-size: 26px;
       font-weight: 800;
-      letter-spacing: 0.2px;
       line-height: 1.15;
     }
 
@@ -97,30 +94,68 @@
     #header nav {
       display: inline-flex;
       gap: 14px;
-      align-items: center;
       justify-content: center;
       flex-wrap: wrap;
     }
 
-    /* These look like links, but do nothing for now */
     .navlink {
-      pointer-events: auto; /* clickable, but won't navigate */
-      cursor: default; /* still looks like nav, but not "link-y" */
+      pointer-events: auto;
+      cursor: default;
       font-size: 13px;
       color: rgba(255,255,255,0.80);
-      text-decoration: none;
       padding: 6px 10px;
       border-radius: 999px;
       border: 1px solid rgba(255,255,255,0.16);
       background: rgba(255,255,255,0.06);
       user-select: none;
-      -webkit-user-select: none;
     }
 
     .navlink:hover {
       color: #fff;
       background: rgba(255,255,255,0.12);
       border-color: rgba(255,255,255,0.22);
+    }
+
+    /* Mobile layout fix */
+    @media (max-width: 520px) {
+      #header {
+        top: 0;
+        left: 0;
+        transform: none;
+
+        width: 100%;
+        max-width: none;
+
+        padding: 10px 12px;
+        border-radius: 0 0 16px 16px;
+
+        background: rgba(0, 0, 0, 0.55);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.35);
+      }
+
+      #header h1 {
+        font-size: 20px;
+        line-height: 1.1;
+      }
+
+      #header p {
+        margin: 6px 0 8px;
+        font-size: 12.5px;
+        line-height: 1.25;
+
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      #header nav {
+        gap: 10px;
+      }
+
+      .navlink {
+        font-size: 12.5px;
+        padding: 5px 10px;
+      }
     }
 
     #floater {
@@ -142,6 +177,7 @@
       box-shadow: 0 8px 24px rgba(0,0,0,0.35);
       pointer-events: auto;
     }
+
     #floater:hover {
       background: rgba(255,255,255,0.14);
     }
@@ -176,19 +212,20 @@
   <div id="wrap">
     <div id="bg"></div>
 
-    <!-- NEW: header overlay -->
-    <header id="header" aria-label="Site header">
+    <header id="header">
       <h1>Shawn Sartor</h1>
       <p>This site is a small personal project. Sometimes it’s a dog gallery. Sometimes it’s something else.</p>
-      <nav aria-label="Site navigation">
-        <span class="navlink" role="link" aria-disabled="true">About</span>
-        <span class="navlink" role="link" aria-disabled="true">Projects</span>
-        <span class="navlink" role="link" aria-disabled="true">Stuff</span>
+      <nav>
+        <span class="navlink">About</span>
+        <span class="navlink">Projects</span>
+        <span class="navlink">Stuff</span>
       </nav>
     </header>
 
     <img id="dog" alt="Doug (Dougie Dougerton)" draggable="false" />
-    <p class="visually-hidden">Shawn Sartor — Experiments, small projects, and occasionally pictures of a very good dog.</p>
+    <p class="visually-hidden">
+      Shawn Sartor — Experiments, small projects, and occasionally pictures of a very good dog.
+    </p>
   </div>
 
   <a
@@ -203,7 +240,6 @@
   <div id="build">build: 2026-01-30 · 4:00 PM</div>
 
   <script>
-    // doug1.jpeg → doug38.jpeg
     const images = Array.from({ length: 38 }, (_, i) => `doug${i + 1}.jpeg`);
 
     const img = document.getElementById("dog");
@@ -238,10 +274,7 @@
     document.addEventListener("pointerup", (e) => {
       if (e.pointerType === "mouse" && e.button !== 0) return;
       if (e.target === floater || floater.contains(e.target)) return;
-
-      // If someone clicks the fake nav "links", don't change the image.
-      if (e.target && e.target.classList && e.target.classList.contains("navlink")) return;
-
+      if (e.target.classList?.contains("navlink")) return;
       pickRandomImage();
     }, { passive: true });
 
