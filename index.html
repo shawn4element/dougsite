@@ -189,9 +189,9 @@
       <h1>Shawn Sartor</h1>
       <p>This site is a small personal project. Sometimes it’s a dog gallery. Sometimes it’s something else.</p>
       <nav>
-        <span class="navlink">About</span>
-        <span class="navlink">Projects</span>
-        <span class="navlink">Stuff</span>
+        <a class="navlink" href="./about.html">About</a>
+        <a class="navlink" href="./projects.html">Projects</a>
+        <a class="navlink" href="./stuff.html">Stuff</a>
         <a
           class="navlink"
           href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
@@ -279,7 +279,7 @@
 
     requestAnimationFrame(animate);
 
-    // NEW: disable right click (desktop) + bark at them
+    // disable right click (desktop) + bark at them
     document.addEventListener("contextmenu", (e) => {
       e.preventDefault();
       alert(Math.random() < 0.5 ? "Bark!" : "Woof!");
