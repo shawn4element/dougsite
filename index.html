@@ -25,7 +25,6 @@
       height: 100%;
     }
 
-    /* Blurred background */
     #bg {
       position: absolute;
       inset: 0;
@@ -38,7 +37,6 @@
     }
     #bg.loaded { opacity: 1; }
 
-    /* Foreground image */
     #dog {
       position: relative;
       z-index: 1;
@@ -54,7 +52,6 @@
     }
     #dog.loaded { opacity: 1; }
 
-    /* Floating screensaver-style link */
     #floater {
       position: fixed;
       left: 20px;
@@ -78,7 +75,6 @@
       background: rgba(255,255,255,0.14);
     }
 
-    /* Build stamp (subtle but visible) */
     #build {
       position: fixed;
       bottom: 10px;
@@ -92,7 +88,6 @@
       pointer-events: none;
     }
 
-    /* Visually hidden SEO text */
     .visually-hidden {
       position: absolute;
       width: 1px;
@@ -122,19 +117,11 @@
     Hello there!
   </a>
 
-  <div id="build">build: 2026-01-30 · 3:00 PM</div>
+  <div id="build">build: 2026-01-30 · 3:30 PM</div>
 
   <script>
-    const images = [
-      "doug1.jpeg",
-      "doug2.jpeg",
-      "doug3.jpeg",
-      "doug4.jpeg",
-      "doug5.jpeg",
-      "doug6.jpeg",
-      "doug7.jpeg",
-      "doug8.jpeg"
-    ];
+    // doug1.jpeg → doug38.jpeg
+    const images = Array.from({ length: 38 }, (_, i) => `doug${i + 1}.jpeg`);
 
     const img = document.getElementById("dog");
     const bg = document.getElementById("bg");
@@ -163,17 +150,14 @@
       bg.classList.add("loaded");
     });
 
-    // Initial image
     pickRandomImage();
 
-    // Unified input handler (desktop + mobile, no double-fire)
     document.addEventListener("pointerup", (e) => {
       if (e.pointerType === "mouse" && e.button !== 0) return;
       if (e.target === floater || floater.contains(e.target)) return;
       pickRandomImage();
     }, { passive: true });
 
-    // JS-driven screensaver-style motion
     let x = 20, y = 20;
     let vx = 1.1, vy = 0.9;
 
