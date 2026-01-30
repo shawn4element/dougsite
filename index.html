@@ -52,7 +52,6 @@
     }
     #dog.loaded { opacity: 1; }
 
-    /* Header */
     #header {
       position: fixed;
       top: 14px;
@@ -118,7 +117,6 @@
       border-color: rgba(255,255,255,0.28);
     }
 
-    /* Mobile fixes */
     @media (max-width: 520px) {
       #header {
         top: 0;
@@ -128,7 +126,6 @@
         width: 100%;
         max-width: none;
 
-        /* SAFE-AREA FIX — this is the centering correction */
         padding-left: calc(12px + env(safe-area-inset-left));
         padding-right: calc(12px + env(safe-area-inset-right));
         padding-top: calc(10px + env(safe-area-inset-top));
@@ -141,23 +138,11 @@
 
       #header h1 {
         font-size: 20px;
-        line-height: 1.1;
       }
 
       #header p {
-        margin: 6px 0 8px;
         font-size: 12.5px;
         line-height: 1.25;
-        white-space: normal;
-      }
-
-      #header nav {
-        gap: 10px;
-      }
-
-      .navlink {
-        font-size: 12.5px;
-        padding: 5px 10px;
       }
     }
 
@@ -181,10 +166,6 @@
       pointer-events: auto;
     }
 
-    #floater:hover {
-      background: rgba(255,255,255,0.14);
-    }
-
     #build {
       position: fixed;
       bottom: 10px;
@@ -196,17 +177,6 @@
       padding: 4px 6px;
       border-radius: 6px;
       pointer-events: none;
-    }
-
-    .visually-hidden {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      margin: -1px;
-      overflow: hidden;
-      clip: rect(0, 0, 0, 0);
-      white-space: nowrap;
-      border: 0;
     }
   </style>
 </head>
@@ -234,9 +204,6 @@
     </header>
 
     <img id="dog" alt="Doug (Dougie Dougerton)" draggable="false" />
-    <p class="visually-hidden">
-      Shawn Sartor — Experiments, small projects, and occasionally pictures of a very good dog.
-    </p>
   </div>
 
   <a
@@ -248,23 +215,23 @@
     Hello there!
   </a>
 
-  <div id="build">build: 2026-01-30 · 4:00 PM</div>
+  <div id="build">build: 2026-01-30 · 4:15 PM</div>
 
   <script>
     const images = Array.from({ length: 38 }, (_, i) => `doug${i + 1}.jpeg`);
-
     const img = document.getElementById("dog");
     const bg = document.getElementById("bg");
     const floater = document.getElementById("floater");
+    const header = document.getElementById("header");
 
     let lastPick = null;
+    let x = 20, y = 20;
+    let vx = 1.1, vy = 0.9;
 
     function pickRandomImage() {
       let pick = images[Math.floor(Math.random() * images.length)];
-      if (images.length > 1) {
-        while (pick === lastPick) {
-          pick = images[Math.floor(Math.random() * images.length)];
-        }
+      while (pick === lastPick && images.length > 1) {
+        pick = images[Math.floor(Math.random() * images.length)];
       }
       lastPick = pick;
 
@@ -283,17 +250,15 @@
     pickRandomImage();
 
     document.addEventListener("pointerup", (e) => {
-      if (e.pointerType === "mouse" && e.button !== 0) return;
-      if (e.target === floater || floater.contains(e.target)) return;
-      if (e.target.closest(".navlink")) return;
+      if (e.target.closest(".navlink") || e.target === floater) return;
       pickRandomImage();
     }, { passive: true });
 
-    let x = 20, y = 20;
-    let vx = 1.1, vy = 0.9;
-
     function animate() {
       const rect = floater.getBoundingClientRect();
+      const headerRect = header.getBoundingClientRect();
+
+      const minY = headerRect.bottom + 12;
       const maxX = window.innerWidth - rect.width;
       const maxY = window.innerHeight - rect.height;
 
@@ -301,10 +266,10 @@
       y += vy;
 
       if (x <= 0 || x >= maxX) vx *= -1;
-      if (y <= 0 || y >= maxY) vy *= -1;
+      if (y <= minY || y >= maxY) vy *= -1;
 
       x = Math.max(0, Math.min(maxX, x));
-      y = Math.max(0, Math.min(maxY, y));
+      y = Math.max(minY, Math.min(maxY, y));
 
       floater.style.left = x + "px";
       floater.style.top  = y + "px";
