@@ -6,21 +6,56 @@
   <title>Dougie Dougerton</title>
 
   <style>
-    html, body { height: 100%; margin: 0; background: #000; }
-    #wrap { height: 100%; display: grid; place-items: center; }
-    img {
+    html, body {
+      height: 100%;
+      margin: 0;
+      background: #000;
+      overflow: hidden;
+      cursor: pointer; /* subtle hint that clicking does something */
+    }
+
+    #wrap {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Blurred background layer */
+    #bg {
+      position: absolute;
+      inset: 0;
+      background-position: center;
+      background-size: cover;
+      filter: blur(30px);
+      transform: scale(1.1); /* avoids blur edges */
+      opacity: 0;
+      transition: opacity 300ms ease;
+    }
+
+    #bg.loaded {
+      opacity: 1;
+    }
+
+    /* Foreground image */
+    #dog {
+      position: relative;
+      z-index: 1;
       width: 100vw;
       height: 100vh;
-      object-fit: contain; /* change to cover if you want it to fill/crop */
+      object-fit: contain;
       display: block;
       opacity: 0;
       transition: opacity 220ms ease-in;
     }
-    img.loaded { opacity: 1; }
+
+    #dog.loaded {
+      opacity: 1;
+    }
   </style>
 </head>
 <body>
   <div id="wrap">
+    <div id="bg"></div>
     <img id="dog" alt="Doug" />
   </div>
 
@@ -33,13 +68,33 @@
       "doug5.jpeg",
       "doug6.jpeg",
       "doug7.jpeg",
-      "doug8.jpeg",
     ];
 
-    const pick = images[Math.floor(Math.random() * images.length)];
     const img = document.getElementById("dog");
-    img.src = `images/${pick}`;
-    img.addEventListener("load", () => img.classList.add("loaded"));
+    const bg = document.getElementById("bg");
+
+    function pickRandomImage() {
+      const pick = images[Math.floor(Math.random() * images.length)];
+      const src = `images/${pick}`;
+
+      img.classList.remove("loaded");
+      bg.classList.remove("loaded");
+
+      img.src = src;
+      bg.style.backgroundImage = `url("${src}")`;
+    }
+
+    img.addEventListener("load", () => {
+      img.classList.add("loaded");
+      bg.classList.add("loaded");
+    });
+
+    // Initial load
+    pickRandomImage();
+
+    // Click or tap anywhere → new photo
+    document.addEventListener("click", pickRandomImage);
+    document.addEventListener("touchstart", pickRandomImage);
   </script>
 </body>
 </html>
