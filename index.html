@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Dougie Dougerton</title>
+
+  <style>
+    html, body { height: 100%; margin: 0; background: #000; }
+    #wrap { height: 100%; display: grid; place-items: center; }
+    img {
+      width: 100vw;
+      height: 100vh;
+      object-fit: contain; /* change to cover if you want it to fill/crop */
+      display: block;
+      opacity: 0;
+      transition: opacity 220ms ease-in;
+    }
+    img.loaded { opacity: 1; }
+  </style>
+</head>
+<body>
+  <div id="wrap">
+    <img id="dog" alt="Doug" />
+  </div>
+
+  <script>
+    const images = [
+      "doug1.jpeg",
+      "doug2.jpeg",
+      "doug3.jpeg",
+      "doug4.jpeg",
+      "doug5.jpeg",
+      "doug6.jpeg",
+      "doug7.jpeg",
+    ];
+
+    const pick = images[Math.floor(Math.random() * images.length)];
+    const img = document.getElementById("dog");
+    img.src = `images/${pick}`;
+    img.addEventListener("load", () => img.classList.add("loaded"));
+  </script>
+</body>
+</html>
