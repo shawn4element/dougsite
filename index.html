@@ -6,21 +6,47 @@
   <title>Dougie Dougerton</title>
 
   <style>
-    html, body { height: 100%; margin: 0; background: #000; }
-    #wrap { height: 100%; display: grid; place-items: center; }
-    img {
+    html, body { height: 100%; margin: 0; background: #000; overflow: hidden; }
+    #wrap { position: relative; width: 100%; height: 100%; }
+
+    /* Blurred background (desktop only) */
+    #bg {
+      position: absolute;
+      inset: 0;
       width: 100vw;
       height: 100vh;
-      object-fit: contain; /* change to cover if you want it to fill/crop */
-      display: block;
+      object-fit: cover;
+      filter: blur(28px) brightness(0.7);
+      transform: scale(1.08);
       opacity: 0;
       transition: opacity 220ms ease-in;
     }
-    img.loaded { opacity: 1; }
+
+    /* Foreground image */
+    #dog {
+      position: absolute;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      display: block;
+      opacity: 0;
+      transition: opacity 220ms ease-in;
+      object-fit: cover; /* mobile default */
+    }
+
+    /* Desktop: keep full image + show blurred background */
+    @media (min-width: 900px) {
+      #dog { object-fit: contain; }
+      #bg { opacity: 1; }
+    }
+
+    .loaded { opacity: 1; }
   </style>
 </head>
+
 <body>
   <div id="wrap">
+    <img id="bg" alt="" aria-hidden="true" />
     <img id="dog" alt="Doug" />
   </div>
 
@@ -37,9 +63,16 @@
     ];
 
     const pick = images[Math.floor(Math.random() * images.length)];
-    const img = document.getElementById("dog");
-    img.src = `images/${pick}`;
-    img.addEventListener("load", () => img.classList.add("loaded"));
+    const dog = document.getElementById("dog");
+    const bg = document.getElementById("bg");
+
+    dog.src = `images/${pick}`;
+    bg.src = `images/${pick}`;
+
+    dog.addEventListener("load", () => {
+      dog.classList.add("loaded");
+      bg.classList.add("loaded");
+    });
   </script>
 </body>
 </html>
