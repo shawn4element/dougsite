@@ -278,6 +278,12 @@
     }
 
     requestAnimationFrame(animate);
+
+    // NEW: disable right click (desktop) + bark at them
+    document.addEventListener("contextmenu", (e) => {
+      e.preventDefault();
+      alert(Math.random() < 0.5 ? "Bark!" : "Woof!");
+    });
   </script>
 </body>
 </html>
