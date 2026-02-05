@@ -117,13 +117,14 @@
       border-color: rgba(255,255,255,0.28);
     }
 
-    /* ghost link: looks like plain text, still clickable */
+    /* ghost link: invisible but clickable inside pointer-events:none parent */
     a.ghost-link,
     a.ghost-link:visited,
     a.ghost-link:hover,
     a.ghost-link:active,
     a.ghost-link:focus,
     a.ghost-link:focus-visible {
+      pointer-events: auto;
       color: inherit;
       text-decoration: none;
       cursor: inherit;
@@ -231,7 +232,7 @@
     Hello there!
   </a>
 
-  <div id="build">build: 2026-01-30 · 4:15 PM</div>
+  <div id="build">build: 2/4 · 10:00 PM</div>
 
   <script>
     const images = Array.from({ length: 38 }, (_, i) => `doug${i + 1}.jpeg`);
@@ -295,7 +296,6 @@
 
     requestAnimationFrame(animate);
 
-    // disable right click (desktop) + bark at them
     document.addEventListener("contextmenu", (e) => {
       e.preventDefault();
       alert(Math.random() < 0.5 ? "Bark!" : "Woof!");
