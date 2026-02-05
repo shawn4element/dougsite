@@ -117,6 +117,19 @@
       border-color: rgba(255,255,255,0.28);
     }
 
+    /* ghost link: looks like plain text, still clickable */
+    a.ghost-link,
+    a.ghost-link:visited,
+    a.ghost-link:hover,
+    a.ghost-link:active,
+    a.ghost-link:focus,
+    a.ghost-link:focus-visible {
+      color: inherit;
+      text-decoration: none;
+      cursor: inherit;
+      outline: none;
+    }
+
     @media (max-width: 520px) {
       #header {
         top: 0;
@@ -187,7 +200,10 @@
 
     <header id="header">
       <h1>Shawn Sartor</h1>
-      <p>This site is a small personal project. Sometimes it’s a dog gallery. Sometimes it’s something else.</p>
+      <p>
+        This site exists for no particular reason. Sometimes it’s a dog gallery.
+        Sometimes it’s <a class="ghost-link" href="https://requests.shawnsartor.com">something else</a>.
+      </p>
       <nav>
         <a class="navlink" href="./about.html">About</a>
         <a class="navlink" href="./projects.html">Projects</a>
