@@ -160,26 +160,6 @@
       }
     }
 
-    #floater {
-      position: fixed;
-      left: 20px;
-      top: 20px;
-      z-index: 9999;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-      font-size: 22px;
-      font-weight: 700;
-      color: #fff;
-      text-decoration: none;
-      padding: 8px 14px;
-      border-radius: 999px;
-      background: rgba(0, 0, 0, 0.45);
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      box-shadow: 0 8px 24px rgba(0,0,0,0.35);
-      pointer-events: auto;
-    }
-
     #build {
       position: fixed;
       bottom: 10px;
@@ -207,43 +187,24 @@
       </p>
       <nav>
         <a class="navlink" href="./about.html">About</a>
-        <a class="navlink" href="./projects.html">Projects</a>
-        <a class="navlink" href="./stuff.html">Stuff</a>
-        <a
-          class="navlink"
-          href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-          target="_blank"
-          rel="noopener"
-        >
-          Don’t Push
-        </a>
+        <a class="navlink" href="./projects.html">Now</a>
+        <a class="navlink" href="./stuff.html">Shorts</a>
+        <a class="navlink" href="javascript:void(0)">Reviews</a>
       </nav>
     </header>
 
     <img id="dog" alt="Doug (Dougie Dougerton)" draggable="false" />
   </div>
 
-  <a
-    id="floater"
-    href="https://www.webhamster.com"
-    target="_blank"
-    rel="noopener"
-  >
-    Hello there!
-  </a>
-
-  <div id="build">build: 2/4 · 10:00 PM</div>
+  <div id="build">build: 202602051000</div>
 
   <script>
     const images = Array.from({ length: 38 }, (_, i) => `doug${i + 1}.jpeg`);
     const img = document.getElementById("dog");
     const bg = document.getElementById("bg");
-    const floater = document.getElementById("floater");
     const header = document.getElementById("header");
 
     let lastPick = null;
-    let x = 20, y = 20;
-    let vx = 1.1, vy = 0.9;
 
     function pickRandomImage() {
       let pick = images[Math.floor(Math.random() * images.length)];
@@ -267,34 +228,9 @@
     pickRandomImage();
 
     document.addEventListener("pointerup", (e) => {
-      if (e.target.closest(".navlink") || e.target === floater) return;
+      if (e.target.closest(".navlink")) return;
       pickRandomImage();
     }, { passive: true });
-
-    function animate() {
-      const rect = floater.getBoundingClientRect();
-      const headerRect = header.getBoundingClientRect();
-
-      const minY = headerRect.bottom + 12;
-      const maxX = window.innerWidth - rect.width;
-      const maxY = window.innerHeight - rect.height;
-
-      x += vx;
-      y += vy;
-
-      if (x <= 0 || x >= maxX) vx *= -1;
-      if (y <= minY || y >= maxY) vy *= -1;
-
-      x = Math.max(0, Math.min(maxX, x));
-      y = Math.max(minY, Math.min(maxY, y));
-
-      floater.style.left = x + "px";
-      floater.style.top  = y + "px";
-
-      requestAnimationFrame(animate);
-    }
-
-    requestAnimationFrame(animate);
 
     document.addEventListener("contextmenu", (e) => {
       e.preventDefault();
