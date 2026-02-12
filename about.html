@@ -4,13 +4,13 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
 
-  <title>Shawn Sartor — Placeholder</title>
+  <title>Shawn Sartor — About</title>
   <meta name="description" content="Future content goes here. Probably." />
 
   <style>
     :root{
-      --bg1: #2b3138;   /* steely */
-      --bg2: #1f242b;   /* charcoal */
+      --bg1: #2b3138;
+      --bg2: #1f242b;
       --card: rgba(255,255,255,0.08);
       --card2: rgba(0,0,0,0.20);
       --border: rgba(255,255,255,0.14);
@@ -32,7 +32,6 @@
         linear-gradient(180deg, var(--bg1), var(--bg2));
     }
 
-    /* subtle grain */
     body::before{
       content:"";
       position: fixed;
@@ -50,7 +49,6 @@
       grid-template-rows: auto 1fr;
     }
 
-    /* Header matches your vibe */
     #header {
       margin: 14px auto 0;
       width: min(820px, calc(100vw - 24px));
@@ -108,7 +106,6 @@
       color: #fff;
     }
 
-    /* Main content card */
     main {
       display: grid;
       place-items: center;
@@ -149,11 +146,30 @@
       background: rgba(255,255,255,0.12);
     }
 
+    /* NEW: Elsewhere footer styling */
+    .elsewhere {
+      margin-top: 10px;
+      font-size: 14px;
+      color: var(--muted2);
+    }
+
+    .elsewhere a {
+      color: var(--muted);
+      text-decoration: none;
+      margin: 0 6px;
+      transition: opacity 120ms ease;
+    }
+
+    .elsewhere a:hover {
+      opacity: 0.85;
+      text-decoration: underline;
+    }
+
     .back {
       display: inline-flex;
       align-items: center;
       gap: 10px;
-      margin-top: 4px;
+      margin-top: 16px;
 
       padding: 10px 14px;
       border-radius: 999px;
@@ -177,7 +193,6 @@
       font-weight: 700;
     }
 
-    /* Mobile: full-width header with safe-area padding */
     @media (max-width: 520px) {
       #header {
         width: 100%;
@@ -218,6 +233,13 @@
         <p>Probably.</p>
 
         <div class="divider"></div>
+
+        <div class="elsewhere">
+          Elsewhere:
+          <a href="https://github.com/shawn4element" target="_blank" rel="noopener">GitHub</a> ·
+          <a href="https://www.instagram.com/shawnsartorkc" target="_blank" rel="noopener">Instagram</a> ·
+          <a href="https://www.threads.com/@shawnsartorkc" target="_blank" rel="noopener">Threads</a>
+        </div>
 
         <a class="back" href="./">
           <span>←</span> Back to the dog
