@@ -117,7 +117,6 @@
       border-color: rgba(255,255,255,0.28);
     }
 
-    /* ghost link: invisible but clickable inside pointer-events:none parent */
     a.ghost-link,
     a.ghost-link:visited,
     a.ghost-link:hover,
@@ -187,22 +186,21 @@
       </p>
       <nav>
         <a class="navlink" href="./about.html">About</a>
-        <a class="navlink" href="./now.html">Now</a>
         <a class="navlink" href="./shorts.html">Shorts</a>
         <a class="navlink" href="./reviews.html">Reviews</a>
+        <a class="navlink" href="./good.html">Good</a>
       </nav>
     </header>
 
     <img id="dog" alt="Doug (Dougie Dougerton)" draggable="false" />
   </div>
 
-  <div id="build">build: 202602121100</div>
+  <div id="build">build: 202602132100</div>
 
   <script>
     const images = Array.from({ length: 38 }, (_, i) => `doug${i + 1}.jpeg`);
     const img = document.getElementById("dog");
     const bg = document.getElementById("bg");
-    const header = document.getElementById("header");
 
     let lastPick = null;
 
